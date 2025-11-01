@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dari Kimong 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(180deg, #ffc0cb, #ffe0f0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Elemen dekorasi */
+    .deco {
+      position: absolute;
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.8;
+      user-select: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .star { font-size: 28px; color: gold; }
+    .flower { font-size: 30px; color: pink; }
+    .rainbow { font-size: 32px; color: #ffb6c1; }
+
+    h2 {
+      color: #fff;
+      font-size: 26px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    /* bentuk love pakai clip-path */
+    .heart-container {
+      width: 220px;
+      height: 200px;
+      background-image: url('faralove.jpg');
+      background-size: cover;
+      background-position: center;
+      clip-path: path("M110 200C50 140 0 90 0 55C0 25 25 0 55 0C80 0 100 20 110 35C120 20 140 0 165 0C195 0 220 25 220 55C220 90 170 140 110 200Z");
+      cursor: pointer;
+      transition: transform 0.4s ease;
+      box-shadow: 0 0 20px rgba(255, 100, 150, 0.5);
+    }
+
+    .heart-container:hover {
+      transform: scale(1.1);
+    }
+
+    .tap-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: bold;
+      font-size: 22px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      pointer-events: none;
+    }
+
+    .message {
+      display: none;
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+      max-width: 350px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .message p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #ff4b5c;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 25px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1e3c;
+    }
+
+    #thankyou {
+      display: none;
+      font-size: 22px;
+      margin-top: 15px;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Dekorasi -->
+  <div class="deco star" style="top:20px; left:40px;">⭐</div>
+  <div class="deco star" style="top:80px; right:70px;">⭐</div>
+  <div class="deco flower" style="bottom:50px; left:60px;">🌸</div>
+  <div class="deco flower" style="bottom:120px; right:90px;">🌼</div>
+  <div class="deco rainbow" style="top:50px; right:45%;">🌈</div>
+
+  <h2>From Kimong 💌</h2>
+
+  <div class="heart-container" id="heart">
+    <div class="tap-text">Ketuk 💗</div>
+  </div>
+
+  <div class="message" id="message">
+    <p>Sayang... aku minta maaf atas semua kesalahanku 💔<br>
+       Aku janji bakal jadi lebih baik lagi buat kamu 💖</p>
+    <button id="yesBtn">Maafin 💞</button>
+    <button id="noBtn">Ogah 😤</button>
+    <div id="thankyou">Makasih sayangku 💕</div>
+  </div>
+
+  <script>
+    const heart = document.getElementById("heart");
+    const message = document.getElementById("message");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const thankyou = document.getElementById("thankyou");
+
+    // klik love
+    heart.addEventListener("click", () => {
+      heart.style.display = "none";
+      message.style.display = "block";
+    });
+
+    // kirim ke Formspree
+    function sendToFormspree() {
+      fetch("https://formspree.io/f/mgvpppjw", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: "Pacarmu udah maafin kamu 😍💞" })
+      });
+    }
+
+    yesBtn.addEventListener("click", () => {
+      thankyou.style.display = "block";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+      sendToFormspree();
+    });
+
+    // Tombol Ogah kabur
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+  </script>
+</body>
+</html>
